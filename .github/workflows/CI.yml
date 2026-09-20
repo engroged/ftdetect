@@ -15,7 +15,7 @@ jobs:
 
       - name: gofmt
         run: |
-          unformatted=$(gofmt -w detectors/generate.go)
+          unformatted=$(gofmt -l .)
           if [ -n "$unformatted" ]; then
             echo "::error::Files are not formatted:"
             echo "$unformatted"
