@@ -33,14 +33,6 @@ jobs:
           go-version: '1.23'
           cache: false
       
-      - name: gofmt
-        run: |
-          unform=$(gofmt -l .)
-          if [ -n "$unform" ]; then
-            echo "::error::Files are not formatted"
-            echo "$unform"
-            exit 1
-          fi
 
       - name: govet
         run: go vet ./...
@@ -49,6 +41,15 @@ jobs:
         uses: golangci/golangci-lint-action@v9
         with:
           version: latest
+
+      - name: gofmt
+        run: |
+          unform=$(gofmt -l .)
+          if [ -n "$unform" ]; then
+            echo "::error::Files are not formatted"
+            echo "$unform"
+            exit 1
+          fi
         
       
         
