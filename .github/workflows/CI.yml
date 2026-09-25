@@ -36,7 +36,7 @@ jobs:
       - name: gofmt
         run: |
           unform=$(gofmt -l .)
-          if [ -n "$unform" ]; then;
+          if [ -n "$unform" ]; then
             echo "::error::Files are not formatted"
             echo "$unform"
             exit 1
