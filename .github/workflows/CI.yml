@@ -26,25 +26,28 @@ jobs:
         run: go test ./...
   lint:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.23'
+    -steps:
+      - uses: action/checkout@v7
+      - uses: action/setup-go@v7
+        with: go-version: '1.23'
+        cache: false
+      
+      -name: gofmt
+      -run: |
+        unform=$(gofmt -l .)
+        if [-n "$unform"]; then;
+          echo "::error::Files are not formatted"
+          echo "$unform"
+          exit 1
+        fi
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        -name: govet
+        -run: govet ./...
+
+        -name: golangcilint
+        - uses: golangci/golang-cilint-action@v9
         with:
           version: latest
+        
       
-      - name: gofmt
-        run: |
-          unformatted=$(gofmt -l .)
-          if [ -n "$unformatted" ]; then
-            echo "::error::Files are not formatted:"
-            echo "$unformatted"
-            exit 1
-          fi
-
-      - name: go vet
-        run: go vet ./...
+        
