@@ -34,21 +34,21 @@ jobs:
           cache: false
       
       - name: gofmt
-          run: |
-            unform=$(gofmt -l .)
-            if [ -n "$unform" ]; then;
-              echo "::error::Files are not formatted"
-              echo "$unform"
-              exit 1
-            fi
+        run: |
+          unform=$(gofmt -l .)
+          if [ -n "$unform" ]; then;
+            echo "::error::Files are not formatted"
+            echo "$unform"
+            exit 1
+          fi
 
-        - name: govet
-          run: go vet ./...
+      - name: govet
+        run: go vet ./...
 
-        - name: golangcilint
-          uses: golangci/golangci-lint-action@v9
-          with:
-            version: latest
+      - name: golangcilint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
         
       
         
